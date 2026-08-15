@@ -1,0 +1,6 @@
+@DiamondVillaAPI_HostAddress = http://localhost:5049
+
+GET {{DiamondVillaAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
