@@ -2,6 +2,7 @@
 using DiamondVillaAPI.Data;
 using DiamondVillaAPI.DTOs;
 using DiamondVillaAPI.Entity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,7 @@ namespace DiamondVillaAPI.Controllers
 	public class VillaController(ApplicationDbContext context, IMapper mapper) : ControllerBase
 	{
 		[HttpGet]
+		[Authorize]
 		[ProducesResponseType(typeof(ApiResponse<IEnumerable<VillaDto>>), StatusCodes.Status200OK)]
 		[ProducesResponseType(typeof(ApiResponse<IEnumerable<VillaDto>>), StatusCodes.Status500InternalServerError)]
 		public async Task<ActionResult<ApiResponse<IEnumerable<VillaDto>>>> GetVillas()
@@ -30,9 +32,9 @@ namespace DiamondVillaAPI.Controllers
 
 		[HttpGet("{id:int}", Name = "GetVillaById")]
 		[ProducesResponseType(typeof(ApiResponse<VillaDto>), StatusCodes.Status200OK)]
-		[ProducesResponseType(typeof(ApiResponse<VillaDto>), StatusCodes.Status400BadRequest)]
-		[ProducesResponseType(typeof(ApiResponse<VillaDto>), StatusCodes.Status404NotFound)]
-		[ProducesResponseType(typeof(ApiResponse<VillaDto>), StatusCodes.Status500InternalServerError)]
+		[ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+		[ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
+		[ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
 		public async Task<ActionResult<ApiResponse<VillaDto>>> GetVillaById(int id)
 		{
 			try
@@ -70,9 +72,9 @@ namespace DiamondVillaAPI.Controllers
 
 		[HttpPost]
 		[ProducesResponseType(typeof(ApiResponse<VillaDto>), StatusCodes.Status201Created)]
-		[ProducesResponseType(typeof(ApiResponse<VillaDto>), StatusCodes.Status400BadRequest)]
-		[ProducesResponseType(typeof(ApiResponse<VillaDto>), StatusCodes.Status409Conflict)]
-		[ProducesResponseType(typeof(ApiResponse<VillaDto>), StatusCodes.Status500InternalServerError)]
+		[ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
+		[ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status409Conflict)]
+		[ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
 		public async Task<ActionResult<ApiResponse<VillaDto>>> CreateVilla([FromBody] CreateVillaDto createVillaDto)
 		{
 			if (createVillaDto is null)
