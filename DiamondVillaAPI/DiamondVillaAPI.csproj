@@ -18,4 +18,8 @@
     <PackageReference Include="Scalar.AspNetCore" Version="2.16.20" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DiamondVillaDTO\DiamondVillaDTO.csproj" />
+  </ItemGroup>
+
 </Project>

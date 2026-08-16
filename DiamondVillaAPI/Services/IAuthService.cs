@@ -1,4 +1,4 @@
-﻿using DiamondVillaAPI.DTOs;
+﻿using DiamondVillaDTO;
 
 namespace DiamondVillaAPI.Services
 {

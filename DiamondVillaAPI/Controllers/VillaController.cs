@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using DiamondVillaAPI.Data;
-using DiamondVillaAPI.DTOs;
+using DiamondVillaDTO;
 using DiamondVillaAPI.Entity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,15 +14,16 @@ namespace DiamondVillaAPI.Controllers
 	public class VillaController(ApplicationDbContext context, IMapper mapper) : ControllerBase
 	{
 		[HttpGet]
-		[Authorize]
+		//[Authorize]
 		[ProducesResponseType(typeof(ApiResponse<IEnumerable<VillaDto>>), StatusCodes.Status200OK)]
 		[ProducesResponseType(typeof(ApiResponse<IEnumerable<VillaDto>>), StatusCodes.Status500InternalServerError)]
 		public async Task<ActionResult<ApiResponse<IEnumerable<VillaDto>>>> GetVillas()
 		{
 			var villas = await context.Villas
-									.AsNoTracking()
-									.OrderBy(v => v.Name)
-									.ToListAsync();
+							.Include(v => v.Amenities) 
+							.AsNoTracking()
+							.OrderBy(v => v.Name)
+							.ToListAsync();
 
 			var villasToReturn = mapper.Map<IEnumerable<VillaDto>>(villas);
 
@@ -46,8 +47,9 @@ namespace DiamondVillaAPI.Controllers
 				}
 
 				var villa = await context.Villas
-										.AsNoTracking()
-										.FirstOrDefaultAsync(v => v.Id == id);
+								.Include(v => v.Amenities) 
+								.AsNoTracking()
+								.FirstOrDefaultAsync(v => v.Id == id);
 
 				if (villa is null)
 				{

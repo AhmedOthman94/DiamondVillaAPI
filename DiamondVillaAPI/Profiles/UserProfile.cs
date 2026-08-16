@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using DiamondVillaAPI.DTOs;
+using DiamondVillaDTO;
 using DiamondVillaAPI.Entity;
 
 namespace DiamondVillaAPI.Profiles

@@ -1,4 +1,4 @@
-﻿using DiamondVillaAPI.DTOs;
+﻿using DiamondVillaDTO;
 using DiamondVillaAPI.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

@@ -1,3 +1,5 @@
 <Solution>
   <Project Path="DiamondVillaAPI/DiamondVillaAPI.csproj" />
+  <Project Path="DiamondVillaDTO/DiamondVillaDTO.csproj" Id="2bdf2648-f8e4-4667-bb58-41717a5f262e" />
+  <Project Path="DiamondVillaWeb/DiamondVillaWeb.csproj" Id="fdce1383-54b6-45d9-b566-26f36f21f0b4" />
 </Solution>

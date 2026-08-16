@@ -153,6 +153,54 @@ namespace DiamondVillaAPI.Migrations
                             UpdatedDate = new DateTime(2026, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
+
+            modelBuilder.Entity("DiamondVillaAPI.Entity.VillaAmenities", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("VillaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VillaId");
+
+                    b.ToTable("Amenities");
+                });
+
+            modelBuilder.Entity("DiamondVillaAPI.Entity.VillaAmenities", b =>
+                {
+                    b.HasOne("DiamondVillaAPI.Entity.Villa", "Villa")
+                        .WithMany("Amenities")
+                        .HasForeignKey("VillaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Villa");
+                });
+
+            modelBuilder.Entity("DiamondVillaAPI.Entity.Villa", b =>
+                {
+                    b.Navigation("Amenities");
+                });
 #pragma warning restore 612, 618
         }
     }

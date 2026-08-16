@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using AutoMapper;
 using DiamondVillaAPI.Data;
-using DiamondVillaAPI.DTOs;
+using DiamondVillaDTO;
 using DiamondVillaAPI.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
