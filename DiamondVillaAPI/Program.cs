@@ -4,6 +4,7 @@ using DiamondVillaAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +15,43 @@ var key = Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Secret"]!);
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.Services.AddOpenApi("v1", opts => 
+{
+	opts.AddDocumentTransformer((document, context, CancellationToken) =>
+	{
+	document.Info = new()
+	{
+		Title = "Diamond Villa API",
+		Version = context.DocumentName,
+		Description = "Villas Web App"
+	};
+
+	document.Components ??= new OpenApiComponents();
+	document.Components.SecuritySchemes = new Dictionary<string, IOpenApiSecurityScheme>();
+
+	document.Components.SecuritySchemes.Add("Bearer", new OpenApiSecurityScheme 
+	{
+		Type = SecuritySchemeType.Http,
+		Scheme = "bearer",
+		BearerFormat = "JWT",
+		Description = "Enter your Bearer token to access this API"
+	});
+
+		document.Security =
+		[
+			new OpenApiSecurityRequirement
+			{
+				{
+					new OpenApiSecuritySchemeReference("Bearer"),
+					[]
+				}
+			}
+		];
+
+		return Task.CompletedTask;
+
+	});
+});
 
 builder.Services.AddAuthentication(opts =>
 {
