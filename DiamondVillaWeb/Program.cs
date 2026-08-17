@@ -1,7 +1,26 @@
+using DiamondVillaDTO;
+using DiamondVillaWeb.Services;
+using DiamondVillaWeb.Services.IServices;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddAutoMapper(opt => 
+{
+	opt.CreateMap<VillaDto, CreateVillaDto>().ReverseMap();
+	opt.CreateMap<UpdateVillaDto, VillaDto>().ReverseMap();
+});
+
+builder.Services.AddHttpClient("DiamondVillaAPI", client => 
+{
+	var villaApiUrl = builder.Configuration.GetValue<string>("SeriveUrls:VillaApi");
+	client.BaseAddress = new Uri(villaApiUrl!);
+	client.DefaultRequestHeaders.Add("Accept", "application/json");
+});
+
+builder.Services.AddScoped<IVillaService, VillaService>();
 
 var app = builder.Build();
 

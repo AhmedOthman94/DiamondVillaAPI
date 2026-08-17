@@ -1,14 +1,34 @@
 using System.Diagnostics;
+using AutoMapper;
+using DiamondVillaDTO;
 using DiamondVillaWeb.Models;
+using DiamondVillaWeb.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondVillaWeb.Controllers
 {
-	public class HomeController : Controller
+	public class HomeController (IVillaService villaService,
+						IMapper mapper	
+	)
+	: Controller
 	{
-		public IActionResult Index()
+		public async Task<IActionResult> Index()
 		{
-			return View();
+			var villaList = new List<VillaDto>();
+			try
+			{
+				var response = await villaService.GetAllAsync<ApiResponse<List<VillaDto>>>("");
+				if (response != null && response.Success && response.Data != null)
+				{
+					villaList = response.Data;
+				}
+			}
+			catch(Exception ex)
+			{
+				TempData["error"] = $"An error occurred: {ex.Message}";
+			}
+
+			return View(villaList);
 		}
 
 		public IActionResult Privacy()

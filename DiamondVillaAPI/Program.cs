@@ -13,6 +13,8 @@ var key = Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Secret"]!);
 
 // Add services to the container.
 
+builder.Services.AddCors();
+
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi("v1", opts => 
@@ -86,6 +88,10 @@ builder.Services.AddAutoMapper(config => { },
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
+
+app.UseCors(o => 
+	o.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().WithExposedHeaders("*")
+);
 
 await DatabaseSeeder.SeedDataAsync(app.Services);
 
