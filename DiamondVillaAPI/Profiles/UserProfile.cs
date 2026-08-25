@@ -9,6 +9,7 @@ namespace DiamondVillaAPI.Profiles
 		public UserProfile() 
 		{
 			CreateMap<User, UserDTO>().ReverseMap();
+			CreateMap<ApplicationUser, UserDTO>().ReverseMap();
 		}
 	}
 }

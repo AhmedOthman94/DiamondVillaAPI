@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace DiamondVillaDTO
 {
@@ -12,5 +13,6 @@ namespace DiamondVillaDTO
 		public int Sqft { get; set; }
 		public int Occupancy { get; set; }
 		public string? ImageUrl { get; set; }
+		public IFormFile? Image { get; set; }
 	}
 }

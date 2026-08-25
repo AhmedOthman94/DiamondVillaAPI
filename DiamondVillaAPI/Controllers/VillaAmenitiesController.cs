@@ -7,7 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DiamondVillaAPI.Controllers
 {
-	[Route("api/villa-amenities")]
+	[Route("api/v2/villa-amenities")]
+	[ApiExplorerSettings(GroupName = "v2")]
 	[ApiController]
 	[Produces("application/json")]
 	public class VillaAmenitiesController(ApplicationDbContext context, IMapper mapper) : ControllerBase

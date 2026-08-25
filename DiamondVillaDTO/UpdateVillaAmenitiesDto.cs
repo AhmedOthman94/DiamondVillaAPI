@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace DiamondVillaDTO
 {
@@ -12,5 +13,6 @@ namespace DiamondVillaDTO
 		public string? Description { get; set; }
 		[Required]
 		public int VillaId { get; set; }
+		public IFormFile? Image {  get; set; }
 	}
 }

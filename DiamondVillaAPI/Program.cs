@@ -1,7 +1,9 @@
 using System.Text;
 using DiamondVillaAPI.Data;
+using DiamondVillaAPI.Entity;
 using DiamondVillaAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
@@ -16,28 +18,28 @@ var key = Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Secret"]!);
 builder.Services.AddCors();
 
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi("v1", opts => 
+//Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddOpenApi("v1", opts =>
 {
 	opts.AddDocumentTransformer((document, context, CancellationToken) =>
 	{
-	document.Info = new()
-	{
-		Title = "Diamond Villa API",
-		Version = context.DocumentName,
-		Description = "Villas Web App"
-	};
+		document.Info = new()
+		{
+			Title = "Diamond Villa API",
+			Version = context.DocumentName,
+			Description = "Villas Web App"
+		};
 
-	document.Components ??= new OpenApiComponents();
-	document.Components.SecuritySchemes = new Dictionary<string, IOpenApiSecurityScheme>();
+		document.Components ??= new OpenApiComponents();
+		document.Components.SecuritySchemes = new Dictionary<string, IOpenApiSecurityScheme>();
 
-	document.Components.SecuritySchemes.Add("Bearer", new OpenApiSecurityScheme 
-	{
-		Type = SecuritySchemeType.Http,
-		Scheme = "bearer",
-		BearerFormat = "JWT",
-		Description = "Enter your Bearer token to access this API"
-	});
+		document.Components.SecuritySchemes.Add("Bearer", new OpenApiSecurityScheme
+		{
+			Type = SecuritySchemeType.Http,
+			Scheme = "bearer",
+			BearerFormat = "JWT",
+			Description = "Enter your Bearer token to access this API"
+		});
 
 		document.Security =
 		[
@@ -54,6 +56,12 @@ builder.Services.AddOpenApi("v1", opts =>
 
 	});
 });
+
+builder.Services.AddOpenApi("v1");
+builder.Services.AddOpenApi("v2");
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+.AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddAuthentication(opts =>
 {
@@ -85,6 +93,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(opts =>
 builder.Services.AddAutoMapper(config => { },
 		AppDomain.CurrentDomain.GetAssemblies());
 
+
+builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
@@ -106,6 +116,8 @@ if (app.Environment.IsDevelopment())
 			.WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
 	});
 }
+
+app.UseStaticFiles();
 
 app.UseHttpsRedirection();
 app.UseAuthentication();

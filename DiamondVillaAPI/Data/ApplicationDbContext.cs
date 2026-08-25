@@ -1,16 +1,21 @@
 ﻿using DiamondVillaAPI.Entity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DiamondVillaAPI.Data
 {
 	public class ApplicationDbContext (DbContextOptions<ApplicationDbContext> options)
-	: DbContext(options)
+	: IdentityDbContext(options)
 	{
 		public DbSet<Villa> Villas { get; set; }
 
 		public DbSet<User> Users { get; set; }
 
 		public DbSet<VillaAmenities> Amenities { get; set; }
+
+		public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+
+		public DbSet<RefreshToken> RefreshTokens { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -79,6 +84,7 @@ namespace DiamondVillaAPI.Data
 					UpdatedDate = new DateTime(2026, 3, 1)
 				}
 			);
+
 		}
 	}
 }

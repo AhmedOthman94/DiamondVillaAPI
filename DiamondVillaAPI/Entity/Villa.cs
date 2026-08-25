@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DiamondVillaAPI.Entity
 {
@@ -15,6 +16,9 @@ namespace DiamondVillaAPI.Entity
 		public string? ImageUrl { get; set; }
 		public DateTime CreatedDate { get; set; }
 		public DateTime? UpdatedDate { get; set; }
+
+		[NotMapped]
+		public IFormFile? Image {  get; set; }
 
 		public ICollection<VillaAmenities>? Amenities { get; set; }
 	}

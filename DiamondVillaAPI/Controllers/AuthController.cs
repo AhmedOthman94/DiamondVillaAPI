@@ -54,7 +54,7 @@ namespace DiamondVillaAPI.Controllers
 		[ProducesResponseType(typeof(ApiResponse<UserDTO>), StatusCodes.Status200OK)]
 		[ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
-		public async Task<ActionResult<ApiResponse<LoginResponseDto>>> Login(
+		public async Task<ActionResult<ApiResponse<TokenDto>>> Login(
 						[FromBody]LoginRequestDto logDto
 		)
 		{
@@ -71,7 +71,7 @@ namespace DiamondVillaAPI.Controllers
 					return BadRequest(ApiResponse<object>.BadRequest("Login failed."));
 				}
 
-				var response = ApiResponse<LoginResponseDto>.Ok(loginResponse, "Login successfully.");
+				var response = ApiResponse<TokenDto>.Ok(loginResponse, "Login successfully.");
 				return Ok(response);
 			}
 			catch(Exception ex)
